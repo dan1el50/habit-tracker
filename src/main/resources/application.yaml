@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: habit-tracker
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/habit_tracker
+    username: habit_user
+    password: habit_pass
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
