@@ -1,8 +1,10 @@
 package com.daniel.habit_tracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "habits")
@@ -21,4 +23,7 @@ public class Habit {
     private Frequency frequency;
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @OneToMany(mappedBy = "habit", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<HabitEntry> entries;
 }
