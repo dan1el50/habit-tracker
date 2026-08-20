@@ -7,6 +7,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.w3c.dom.html.HTMLTableCaptionElement;
 
 import java.time.LocalDateTime;
 
@@ -30,4 +31,11 @@ public class GlobalExceptionHandler {
         ErrorResponse error = new ErrorResponse(400, "Invalid JSON or field value", LocalDateTime.now());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(HabitAlreadyCompletedException.class)
+    public ResponseEntity<ErrorResponse> handleHabitAlreadyCompletedException(HabitAlreadyCompletedException ex){
+        ErrorResponse error = new ErrorResponse(409, ex.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
 }
