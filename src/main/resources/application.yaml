@@ -3,9 +3,9 @@ spring:
     name: habit-tracker
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/habit_tracker
-    username: habit_user
-    password: habit_pass
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/habit_tracker}
+    username: ${SPRING_DATASOURCE_USERNAME:habit_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:habit_pass}
     driver-class-name: org.postgresql.Driver
 
   jpa:
