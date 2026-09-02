@@ -2,8 +2,10 @@ package com.daniel.habit_tracker.controller;
 
 import com.daniel.habit_tracker.dto.CreateHabitEntryRequest;
 import com.daniel.habit_tracker.entity.HabitEntry;
+import com.daniel.habit_tracker.security.UserPrincipal;
 import com.daniel.habit_tracker.service.HabitEntryService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,12 +21,15 @@ public class HabitEntryController {
     }
 
     @PostMapping
-    public HabitEntry createHabitEntry(@Valid @RequestBody CreateHabitEntryRequest request, @PathVariable Long habitId){
-        return habitEntryService.createHabitEntry(request, habitId);
+    public HabitEntry createHabitEntry(@Valid @RequestBody CreateHabitEntryRequest request,
+                                       @PathVariable Long habitId,
+                                       @AuthenticationPrincipal UserPrincipal principal){
+        return habitEntryService.createHabitEntry(request, habitId, principal.getUser().getId());
     }
 
     @GetMapping
-    public List<HabitEntry> getHabitEntries(@PathVariable Long habitId){
-        return habitEntryService.getHabitEntries(habitId);
+    public List<HabitEntry> getHabitEntries(@PathVariable Long habitId,
+                                            @AuthenticationPrincipal UserPrincipal principal){
+        return habitEntryService.getHabitEntries(habitId, principal.getUser().getId());
     }
 }

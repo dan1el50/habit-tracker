@@ -26,4 +26,9 @@ public class Habit {
     @OneToMany(mappedBy = "habit", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<HabitEntry> entries;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
 }
