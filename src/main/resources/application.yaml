@@ -17,5 +17,9 @@ spring:
       hibernate:
         format_sql: true
 
+jwt:
+  secret: ${JWT_SECRET:this-is-a-local-dev-only-secret-change-me-32-bytes-min}
+  expiration-ms: 86400000  # 24 hours
+
 server:
   port: 8080

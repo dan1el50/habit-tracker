@@ -21,8 +21,8 @@ public class HabitEntryService {
         this.habitService = habitService;
     }
 
-    public HabitEntry createHabitEntry(CreateHabitEntryRequest request, Long habitId){
-        Habit habit = habitService.getHabitById(habitId);
+    public HabitEntry createHabitEntry(CreateHabitEntryRequest request, Long habitId, Long userId){
+        Habit habit = habitService.getHabitById(habitId, userId);
         LocalDate date = request.getDate() != null ? request.getDate() : LocalDate.now();
 
         if (habitEntryRepository.findByHabitIdAndCompletedDate(habit.getId(), date).isPresent()){
@@ -35,9 +35,8 @@ public class HabitEntryService {
         return habitEntryRepository.save(habitEntry);
     }
 
-    public List<HabitEntry> getHabitEntries(Long habitId){
-        Habit habit = habitService.getHabitById(habitId);
+    public List<HabitEntry> getHabitEntries(Long habitId, Long userId){
+        habitService.getHabitById(habitId, userId); // ownership check, throws if not found/not owned
         return habitEntryRepository.findByHabitIdOrderByCompletedDateDesc(habitId);
     }
-
 }

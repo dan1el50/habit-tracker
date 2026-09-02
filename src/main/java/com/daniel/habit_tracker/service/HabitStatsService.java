@@ -20,8 +20,8 @@ public class HabitStatsService {
         this.habitService = habitService;
     }
 
-    private int getCurrentStreak(Long habitId) {
-        List<HabitEntry> habitEntryHistory = habitEntryService.getHabitEntries(habitId);
+    private int getCurrentStreak(Long habitId, Long userId) {
+        List<HabitEntry> habitEntryHistory = habitEntryService.getHabitEntries(habitId, userId);
         if (habitEntryHistory.isEmpty()) {
             return 0;
         }
@@ -43,11 +43,11 @@ public class HabitStatsService {
         return count;
     }
 
-    private int getLongestStreak(Long habitId) {
+    private int getLongestStreak(Long habitId, Long userId) {
         int runningStreak = 1;
         int maxStreak = 0;
 
-        List<HabitEntry> habitEntryHistory = habitEntryService.getHabitEntries(habitId);
+        List<HabitEntry> habitEntryHistory = habitEntryService.getHabitEntries(habitId, userId);
 
         if (habitEntryHistory.isEmpty()) {
             return 0;
@@ -67,8 +67,9 @@ public class HabitStatsService {
         return maxStreak;
     }
 
-    public HabitStatsResponse getHabitStats(Long habitId) {
-        Habit habit = habitService.getHabitById(habitId);
-        return new HabitStatsResponse(habit.getName(), habit.getCreatedAt(), getCurrentStreak(habitId), getLongestStreak(habitId));
+    public HabitStatsResponse getHabitStats(Long habitId, Long userId) {
+        Habit habit = habitService.getHabitById(habitId, userId);
+        return new HabitStatsResponse(habit.getName(), habit.getCreatedAt(),
+                getCurrentStreak(habitId, userId), getLongestStreak(habitId, userId));
     }
 }

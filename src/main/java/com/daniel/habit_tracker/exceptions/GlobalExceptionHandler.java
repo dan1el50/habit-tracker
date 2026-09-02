@@ -4,10 +4,10 @@ package com.daniel.habit_tracker.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.w3c.dom.html.HTMLTableCaptionElement;
 
 import java.time.LocalDateTime;
 
@@ -38,4 +38,21 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(UsernameTakenException.class)
+    public ResponseEntity<ErrorResponse> handleUsernameTakenException(UsernameTakenException ex){
+        ErrorResponse error = new ErrorResponse(409, ex.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(EmailTakenException.class)
+    public ResponseEntity<ErrorResponse> handleEmailTakenException(EmailTakenException ex){
+        ErrorResponse error = new ErrorResponse(409, ex.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException ex){
+        ErrorResponse error = new ErrorResponse(401, "Invalid username or password.", LocalDateTime.now());
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
 }

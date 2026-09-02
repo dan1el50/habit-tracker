@@ -1,7 +1,9 @@
 package com.daniel.habit_tracker.controller;
 
 import com.daniel.habit_tracker.dto.HabitStatsResponse;
+import com.daniel.habit_tracker.security.UserPrincipal;
 import com.daniel.habit_tracker.service.HabitStatsService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +20,8 @@ public class HabitStatsController {
     }
 
     @GetMapping
-    public HabitStatsResponse getHabitStats(@PathVariable Long habitId){
-        return habitStatsService.getHabitStats(habitId);
+    public HabitStatsResponse getHabitStats(@PathVariable Long habitId,
+                                            @AuthenticationPrincipal UserPrincipal principal){
+        return habitStatsService.getHabitStats(habitId, principal.getUser().getId());
     }
 }
